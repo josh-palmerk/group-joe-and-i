@@ -1,19 +1,17 @@
 
-   /*************************************************************
-   * 1. Name:
-   *      Joe Allen
-   * 2. Assignment Name:
-   *      Practice 02: Physics simulator
-   * 3. Assignment Description:
-   *      Compute how the Apollo lander will move across the screen
-   * 4. What was the hardest part? Be as specific as possible.
-   *      Trying to figure out how to do the actual project. I made some
-   *        assumptions and wasnt sure where to start. Finally settled on 
-   *        making the functions as simple as possible and just performing
-   *        math and returning results. Then calling said functions within main.
-   * 5. How long did it take for you to complete the assignment?
-	*      2.5 hours
-   **************************************************************/
+/*************************************************************
+ * 1. Name:
+ *      David Wells
+ *      Joe Allen
+ * 2. Assignment Name:
+ *      Lab 02: Apollo 11
+ * 3. Assignment Description:
+ *      Simulate the Apollo 11 landing
+ * 4. What was the hardest part? Be as specific as possible.
+ *      Figuring out what changes had to be made per 5-second interval
+ * 5. How long did it take for you to complete the assignment?
+ *      1 hour
+ *****************************************************************/
 
    #include <iostream>  // for CIN and COUT
    #include <cmath>   // for M_PI and sqrt
