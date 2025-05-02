@@ -15,6 +15,10 @@
 	*      2.5 hours
    **************************************************************/
 
+   ///
+   // NOTE: DOES NOT FUNCTION ON ITS OWN. MUST RENAME mainOld TO main
+   ///
+
    #include <iostream>  // for CIN and COUT
    #include <cmath>   // for M_PI and sqrt
    using namespace std;
@@ -205,7 +209,7 @@
    * MAIN
    * Prompt for input, compute new position, and display output
    ****************************************************************/
-   int main()
+   int mainOld()
    {
 
       // Prompt for input and variables to be computed
