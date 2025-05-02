@@ -10,7 +10,7 @@
  * 4. What was the hardest part? Be as specific as possible.
  *      Figuring out what changes had to be made per 5-second interval
  * 5. How long did it take for you to complete the assignment?
- *      1 hour
+ *      2 hours
  *****************************************************************/
 
    #include <iostream>  // for CIN and COUT
