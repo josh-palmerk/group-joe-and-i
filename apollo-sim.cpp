@@ -1,17 +1,17 @@
 
-/*************************************************************
- * 1. Name:
- *      David Wells
- *      Joe Allen
- * 2. Assignment Name:
- *      Lab 02: Apollo 11
- * 3. Assignment Description:
- *      Simulate the Apollo 11 landing
- * 4. What was the hardest part? Be as specific as possible.
- *      Figuring out what changes had to be made per 5-second interval
- * 5. How long did it take for you to complete the assignment?
- *      2 hours
- *****************************************************************/
+   /*************************************************************
+   * 1. Name:
+   *      David Wells
+   *      Joe Allen
+   * 2. Assignment Name:
+   *      Lab 02: Apollo 11
+   * 3. Assignment Description:
+   *      Simulate the Apollo 11 landing
+   * 4. What was the hardest part? Be as specific as possible.
+   *      Figuring out what changes had to be made per 5-second interval
+   * 5. How long did it take for you to complete the assignment?
+   *      2 hour
+   *****************************************************************/
 
    #include <iostream>  // for CIN and COUT
    #include <cmath>   // for M_PI and sqrt
@@ -243,6 +243,13 @@
       {
          cout << "\n=== Test Case: " << test.name << " ===\n";
 
+         // Display all test values
+			cout << "Initial values:\n";
+			cout << "  Vertical velocity (dy): " << test.dy << " m/s";
+			cout << "\n  Horizontal velocity (dx): " << test.dx << " m/s";
+			cout << "\n  Altitude (y): " << test.y << " m";
+         cout << "\n  Initial angle: " << test.initialAngle << " degrees\n";
+
          // Initialize position and velocity from test input
          double dy = test.dy;
          double dx = test.dx;
@@ -268,7 +275,8 @@
             double ddx = ddxThrust;
             double ddy = ddyThrust + GRAVITY;
 
-            cout << "\nFor the next " << t << " seconds with the main engine on, the position of the lander is:\n\n";
+            cout << "\nFor the next " << t << " seconds with the main engine on, the position of the lander is:\n";
+            cout << "  New angle: " << test.newAngle << " degrees\n\n";
 
             // Loop through each second of simulation
             for (int i = 0; i < t; i++)
