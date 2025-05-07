@@ -1,23 +1,17 @@
 
    /*************************************************************
    * 1. Name:
+   *      David Wells
    *      Joe Allen
    * 2. Assignment Name:
-   *      Practice 02: Physics simulator
+   *      Lab 02: Apollo 11
    * 3. Assignment Description:
-   *      Compute how the Apollo lander will move across the screen
+   *      Simulate the Apollo 11 landing
    * 4. What was the hardest part? Be as specific as possible.
-   *      Trying to figure out how to do the actual project. I made some
-   *        assumptions and wasnt sure where to start. Finally settled on 
-   *        making the functions as simple as possible and just performing
-   *        math and returning results. Then calling said functions within main.
+   *      Figuring out what changes had to be made per 5-second interval
    * 5. How long did it take for you to complete the assignment?
-	*      2.5 hours
-   **************************************************************/
-
-   ///
-   // NOTE: DOES NOT FUNCTION ON ITS OWN. MUST RENAME mainOld TO main
-   ///
+   *      2 hour
+   *****************************************************************/
 
    #include <iostream>  // for CIN and COUT
    #include <cmath>   // for M_PI and sqrt
@@ -81,7 +75,6 @@
    * OUTPUT
    *     v : new velocity, in meters/second
    ***********************************************/
-   
    double computeVelocity(double velocity, double acceleration, double time)
    {
 
@@ -106,7 +99,6 @@
    * OUTPUT
    *     y : the vertical component of the total
    ***********************************************/
-   
    double computeVerticalComponent(double a, double total)
    {
 		// Vertical component equation:
@@ -131,7 +123,6 @@
    * OUTPUT
    *     x : the vertical component of the total
    ***********************************************/
-   
    double computeHorizontalComponent(double a, double total)
    {
 		// Horizontal component equation:
@@ -157,13 +148,11 @@
    * OUTPUT
    *    total : total component
    ***********************************************/
-   
    double computeTotalComponent(double x, double y)
    {
 		// Total component equation:
       return sqrt((x * x) + (y * y));
    }
-
 
    /*************************************************
    * RADIANS FROM DEGEES
@@ -174,7 +163,6 @@
    * OUTPUT
    *     r : radians from 0 to 2pi
    **************************************************/
-   
    double radiansFromDegrees(double d)
    {
 		// Radians equation:
@@ -189,7 +177,6 @@
    * OUTPUT
    *      response : the user's response
    ***************************************************/
-   
    double prompt(const char* message)
    {
       // Declare a variable to store the user's input.
@@ -205,68 +192,196 @@
       return response;
    }
 
-   /****************************************************************
-   * MAIN
-   * Prompt for input, compute new position, and display output
-   ****************************************************************/
-   int mainOld()
+   /**************************************************
+   * CONFIRM
+   * Prompt user with a yes/no question.
+   * INPUT
+   *     message : A question string to display to the user.
+   * OUTPUT
+   *     true if the user responds with 'y' or 'Y', false otherwise.
+   **************************************************/
+   bool confirm(const char* message)
    {
-
-      // Prompt for input and variables to be computed
-      double dx = prompt("What is your horizontal velocity (m/s)? ");
-      double dy = prompt("What is your vertical velocity (m/s)? ");
-      double y = prompt("What is your altitude (m)? ");
-      double x = prompt("What is your position (m)? ");
-      double aDegrees = prompt("What is the angle of the LM where 0 is up (degrees)? ");
-      double t = prompt("What is the time interval (s)? ");
-      double aRadians;            // Angle in radians
-      double accelerationThrust;  // Acceleration due to thrust 
-      double ddxThrust;           // Horizontal acceleration due to thrust
-      double ddyThrust;           // Vertical acceleration due to thrust
-      double ddx;                 // Total horizontal acceleration
-      double ddy;                 // Total vertical acceleration
-      double v;                   // Total velocity
-
-      // Constants
-      const double mass = WEIGHT;
-
-      aRadians = radiansFromDegrees(aDegrees);
-
-      // Compute total acceleration from thrust
-      accelerationThrust = computeAcceleration(THRUST, mass);
-
-      // Split acceleration into components
-      ddxThrust = computeHorizontalComponent(aRadians, accelerationThrust);
-      ddyThrust = computeVerticalComponent(aRadians, accelerationThrust);
-
-      // Add gravity to vertical component
-      ddx = ddxThrust;
-      ddy = ddyThrust + GRAVITY;
-
-      // Loop 5 times
-      for (int i = 0; i < 5; i++)
-      {
-
-
-         // Compute new position
-         x = computeDistance(x, dx, ddx, t);
-         y = computeDistance(y, dy, ddy, t);
-
-         // Compute new velocity
-         dx = computeVelocity(dx, ddx, t);
-         dy = computeVelocity(dy, ddy, t);
-
-         // Compute total velocity
-         double v = computeTotalComponent(dx, dy);
-
-         // Output results
-         cout.setf(ios::fixed | ios::showpoint);
-         cout.precision(2);
-         cout << "\tNew position:   (" << x << ", " << y << ")m\n";
-         cout << "\tNew velocity:   (" << dx << ", " << dy << ")m/s\n";
-         cout << "\tTotal velocity:  " << v << "m/s\n\n";
-      }
-
-      return 0;
+      char response;
+      cout << message << " (y/n): ";
+      cin >> response;
+      return response == 'y' || response == 'Y';
    }
 
+
+   /**************************************************
+   * RUN TEST CASES
+   * Run the predefined Apollo 11 simulations. Each test
+   * runs twice: once with the initial angle and once with
+   * the new angle. Results are printed to the console.
+   **************************************************/
+   void runTestCases()
+   {
+      const double mass = WEIGHT;
+      const int t = 5; // duration per phase
+
+      // Define a list of test cases with fixed input values
+      struct TestCase
+      {
+         const char* name;
+         double dy;
+         double dx;
+         double y;
+         double x;
+         double initialAngle;
+         double newAngle;
+      };
+
+      TestCase tests[] = {
+         {"Hard landing", -13.959, 10.53, 106.08, 0.0, -45, 0},
+         {"Crash",        -15.000, -35.00, 207.77, 0.0, 90, 45},
+         {"Armstrong is awesome!", -10.000, 10.00, 62.70, 0.0, -42.185, 0}
+      };
+
+      // Loop through each test case
+      for (const TestCase& test : tests)
+      {
+         cout << "\n=== Test Case: " << test.name << " ===\n";
+
+         // Display all test values
+			cout << "Initial values:\n";
+			cout << "  Vertical velocity (dy): " << test.dy << " m/s";
+			cout << "\n  Horizontal velocity (dx): " << test.dx << " m/s";
+			cout << "\n  Altitude (y): " << test.y << " m";
+         cout << "\n  Initial angle: " << test.initialAngle << " degrees\n";
+
+         // Initialize position and velocity from test input
+         double dy = test.dy;
+         double dx = test.dx;
+         double y = test.y;
+         double x = test.x;
+         double aDegrees = test.initialAngle;
+
+         // Run the simulation twice: once for each angle
+         for (int sim = 0; sim < 2; sim++)
+         {
+            if (sim == 1)
+               aDegrees = test.newAngle;
+
+            // Convert angle to radians
+            double aRadians = radiansFromDegrees(aDegrees);
+
+            // Compute total acceleration from thrust
+            double accelerationThrust = computeAcceleration(THRUST, mass);
+
+            // Split acceleration into components
+            double ddxThrust = computeHorizontalComponent(aRadians, accelerationThrust);
+            double ddyThrust = computeVerticalComponent(aRadians, accelerationThrust);
+            double ddx = ddxThrust;
+            double ddy = ddyThrust + GRAVITY;
+
+            cout << "\nFor the next " << t << " seconds with the main engine on, the position of the lander is:\n";
+            cout << "  New angle: " << test.newAngle << " degrees\n\n";
+
+            // Loop through each second of simulation
+            for (int i = 0; i < t; i++)
+            {
+               // Update position based on current velocity and acceleration
+               x = computeDistance(x, dx, ddx, 1);
+               y = computeDistance(y, dy, ddy, 1);
+
+               // Update velocity based on current acceleration
+               dx = computeVelocity(dx, ddx, 1);
+               dy = computeVelocity(dy, ddy, 1);
+
+               // Compute total speed
+               double v = computeTotalComponent(dx, dy);
+
+               // Format and output the results
+               cout.setf(ios::fixed | ios::showpoint);
+               cout.precision(2);
+               int second = i + 1 + (sim * 5);
+               if (second < 10)
+                  cout << " ";
+               cout << second << "s - x,y:(" << x << ", " << y << ")m ";
+               cout << " dx,dy:(" << dx << ", " << dy << ")m/s ";
+               cout << " speed:" << v << "m/s ";
+               cout << " angle:" << aDegrees << "deg\n";
+            }
+         }
+      }
+   }
+
+   /**************************************************
+   * RUN USER INPUT
+   * Prompt the user to manually enter all simulation values.
+   * The simulation is then run twice: first with initial angle,
+   * then with a new user-supplied angle.
+   **************************************************/
+   void runUserInput()
+   {
+      const double mass = WEIGHT;
+      const int t = 5; // duration per phase
+
+      // Prompt user for initial values
+      double dy = prompt("What is your vertical velocity (m/s)? ");
+      double dx = prompt("What is your horizontal velocity (m/s)? ");
+      double y = prompt("What is your altitude (m)? ");
+      double x = 0.0; // x starts at zero by requirement
+      double aDegrees = prompt("What is the angle of the LM where 0 is up (degrees)? ");
+
+      // Run the simulation twice: once for each angle
+      for (int sim = 0; sim < 2; sim++)
+      {
+         // Prompt for new angle on second pass
+         if (sim != 0)
+            aDegrees = prompt("\nWhat is the new angle of the LM where 0 is up (degrees)? ");
+
+         // Convert angle to radians
+         double aRadians = radiansFromDegrees(aDegrees);
+
+         // Compute thrust-based acceleration
+         double accelerationThrust = computeAcceleration(THRUST, mass);
+
+         // Compute horizontal and vertical components
+         double ddxThrust = computeHorizontalComponent(aRadians, accelerationThrust);
+         double ddyThrust = computeVerticalComponent(aRadians, accelerationThrust);
+         double ddx = ddxThrust;
+         double ddy = ddyThrust + GRAVITY;
+
+         cout << "\nFor the next " << t << " seconds with the main engine on, the position of the lander is:\n\n";
+
+         // Loop through each second of simulation
+         for (int i = 0; i < t; i++)
+         {
+            x = computeDistance(x, dx, ddx, 1);
+            y = computeDistance(y, dy, ddy, 1);
+            dx = computeVelocity(dx, ddx, 1);
+            dy = computeVelocity(dy, ddy, 1);
+            double v = computeTotalComponent(dx, dy);
+
+            cout.setf(ios::fixed | ios::showpoint);
+            cout.precision(2);
+            int second = i + 1 + (sim * 5);
+            if (second < 10)
+               cout << " ";
+            cout << second << "s - x,y:(" << x << ", " << y << ")m ";
+            cout << " dx,dy:(" << dx << ", " << dy << ")m/s ";
+            cout << " speed:" << v << "m/s ";
+            cout << " angle:" << aDegrees << "deg\n";
+         }
+      }
+   }
+
+   /****************************************************************
+   * MAIN
+   * Prompt user to choose between running test cases or
+   * manually entering simulation data, and run the appropriate path.
+   ****************************************************************/
+   int main()
+   {
+      if (confirm("Would you like to run the predefined test cases?"))
+         runTestCases();
+      else
+         runUserInput();
+
+      return 0;
+	}
+	/****************************************************************
+	* END OF FILE
+	****************************************************************/
