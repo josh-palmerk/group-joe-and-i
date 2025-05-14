@@ -31,50 +31,49 @@ class TestAngle;
   ************************************/
 class Angle
 {
-   private:
+   
+   public:
       // store both for quicker calculations
       // made private for more control
-      double angleRadians;
-      double angleDegrees;
-
-   public:
+      double radians;
+      double degrees;
       // default
       Angle() {
-         angleRadians = 0.0;
-         angleDegrees = 0.0;
+         radians = 0.0;
+         degrees = 0.0;
       }
 
       // non-default
-      Angle(double degrees) {
-         angleDegrees = degrees;
-         angleRadians = convertToRadians(degrees);
+      Angle(double newDegrees) {
+         degrees = newDegrees;
+         radians = convertToRadians(degrees);
       }
 
       // copy constructor
       Angle(const Angle& father) {
-         angleDegrees = father.angleDegrees;
-         angleRadians = father.angleRadians;
+         degrees = father.degrees;
+         radians = father.radians;
       }
 
       double getDegrees() const {
-         return angleDegrees;
+         return degrees;
       }
       double getRadians() const {
-         return angleRadians;
+         return radians;
       }
       /*
       * Preferable to call this over setRadians (it's faster)
       */
       void setDegrees(double degrees) {
-         angleRadians = convertToRadians(degrees);
-         angleDegrees = convertToDegrees(degrees);
+         radians = convertToRadians(degrees);
+         degrees = convertToDegrees(degrees);
       }
       void setRadians(double radians) {
          // this also normalizes
-         angleRadians = normalize(radians);
+         radians = normalize(radians);
          // this normalizes twice, but I didn't want to
          // create another normalize function
-         angleDegrees = convertToDegrees(angleRadians);
+         degrees = convertToDegrees(radians);
       }
       void display(ostream& out) const {
          // Set up the print style:
@@ -83,12 +82,11 @@ class Angle
          out.setf(std::ios::fixed);
          out.setf(std::ios::showpoint);
          out.precision(1);
-         cout << angleDegrees << " deg." << endl;
+         cout << degrees << " deg." << endl;
       }
-
-   private:
       /*
        * Takes radians and normalizes it to be between 0 and 2*PI
+       * Made public for testing purposes
        */
       double normalize(double radians) const {
          while (radians < 0) {
@@ -99,12 +97,20 @@ class Angle
          }
          return radians;
       }
+      /*
+       * Made public for testing purposes
+       */
       double convertToDegrees(double radians) const {
          return normalize(radians) * ONE_EIGHTY_OVER_PI;
       }
+      /*
+       * Made public for testing purposes
+       */
       double convertToRadians(double degrees) const {
          return normalize(degrees * PI_OVER_180);
       }
+
+   // private:
 
 };
 

@@ -1,6 +1,6 @@
 /***********************************************************************
  * Source:
- *    Angle 
+ *    Angle
  * Summary:
  *    Just call the Angle unit tests
  * Author:
