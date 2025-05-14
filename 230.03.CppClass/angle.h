@@ -1,8 +1,8 @@
 /*************************************************************
  * 1. Name:
- *      -your name-
+ *      Joe Allen, David Wells
  * 2. Assignment Name:
- *      Practice 03: Angle Class
+ *      Practice 03, 04: Angle Class
  * 3. Assignment Description:
  *      A class to represent an angle
  * 4. What was the hardest part? Be as specific as possible.
@@ -36,11 +36,30 @@ class Angle
       // made private for more control
       double angleRadians;
       double angleDegrees;
+
    public:
-      double getDegrees() {
+      // default
+      Angle() {
+         angleRadians = 0.0;
+         angleDegrees = 0.0;
+      }
+
+      // non-default
+      Angle(double degrees) {
+         angleDegrees = degrees;
+         angleRadians = convertToRadians(degrees);
+      }
+
+      // copy constructor
+      Angle(const Angle& father) {
+         angleDegrees = father.angleDegrees;
+         angleRadians = father.angleRadians;
+      }
+
+      double getDegrees() const {
          return angleDegrees;
       }
-      double getRadians() {
+      double getRadians() const {
          return angleRadians;
       }
       /*
@@ -57,7 +76,7 @@ class Angle
          // create another normalize function
          angleDegrees = convertToDegrees(angleRadians);
       }
-      void display(ostream& out) {
+      void display(ostream& out) const {
          // Set up the print style:
          // fixed-point, with 1 decimal point and a decimal point
          // displaying DEGREES as requested by the professor
@@ -71,7 +90,7 @@ class Angle
       /*
        * Takes radians and normalizes it to be between 0 and 2*PI
        */
-      double normalize(double radians) {
+      double normalize(double radians) const {
          while (radians < 0) {
             radians += TWO_PI;
          }
@@ -80,10 +99,10 @@ class Angle
          }
          return radians;
       }
-      double convertToDegrees(double radians) {
+      double convertToDegrees(double radians) const {
          return normalize(radians) * ONE_EIGHTY_OVER_PI;
       }
-      double convertToRadians(double degrees) {
+      double convertToRadians(double degrees) const {
          return normalize(degrees * PI_OVER_180);
       }
 

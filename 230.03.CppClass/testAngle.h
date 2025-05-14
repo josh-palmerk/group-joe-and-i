@@ -23,6 +23,15 @@ public:
    {
       reset();
 
+      // constructors
+      test_construct_default();
+      test_construct_copy0();
+      test_construct_copy180();
+      test_construct_nondefault0();
+      test_construct_nondefault180();
+      test_construct_nondefaultWrap();
+      test_construct_nondefaultWrapNegative();
+
       // get
       test_getRadians_0();
       test_getRadians_90();
@@ -72,12 +81,91 @@ public:
       test_display_180();
       test_display_359();
 
-
-
       report("Angle");
    }
 private:
 
+   /***************************************
+    * CONSTRUCTORS
+    ***************************************/
+
+   // default constructor
+   void test_construct_default()
+   {  // setup
+      // exercise
+      Angle a;
+      // verify
+      assertValues(a.radians, 0.0, 0.001);
+   }  // teardown
+   
+   // copy constructor with zero
+   void test_construct_copy0()
+   {  // setup
+      Angle aRHS;
+      aRHS.radians = 0.0;
+      // exercise
+      Angle aLHS(aRHS);
+      // verify
+      assertValues(aLHS.radians, 0.0, 0.001);
+      assertValues(aRHS.radians, 0.0, 0.001);
+   }  // teardown
+   
+   // copy constructor with 180 degrees
+   void test_construct_copy180()
+   {  // setup
+      Angle aRHS;
+      aRHS.radians = 3.14159;
+      // exercise
+      Angle aLHS(aRHS);
+      // verify
+      assertValues(aLHS.radians, 3.14159, 0.001);
+      assertValues(aRHS.radians, 3.14159, 0.001);
+   }  // teardown
+
+   // non-default constructor with zero
+   void test_construct_nondefault0()
+   {  // setup
+      double degrees = 0.0;
+      // exercise
+      Angle a(degrees);
+      // verify
+      assertValues(a.radians, 0.0, 0.001);
+      assertValues(degrees, 0.0, 0.001);
+   }  // teardown
+   
+   // 180 degrees
+   void test_construct_nondefault180()
+   {  // setup
+      double degrees = 180.0;
+      // exercise
+      Angle a(degrees);
+      // verify
+      assertValues(a.radians, 3.14159, 0.001);
+      assertValues(degrees, 180.0, 0.001);
+   }  // teardown
+   
+   // wrap positive twice
+   void test_construct_nondefaultWrap()
+   {  // setup
+      double degrees = 810.0; // 90 + 360 + 360
+      // exercise
+      Angle a(degrees);
+      // verify
+      assertValues(a.radians, 3.14159 / 2.0, 0.001);
+      assertValues(degrees, 810.0, 0.001);
+   }  // teardown
+   
+   // wrap negative twice
+   void test_construct_nondefaultWrapNegative()
+   {  // setup
+      double degrees = -810.0; // -720 - 90
+      // exercise
+      Angle a(degrees);
+      // verify
+      assertValues(a.radians, 3.14159 / 2.0 + 3.14159, 0.001);
+      assertValues(degrees, -810.0, 0.001);
+   }  // teardown
+   
 /***************************************
  * GET
  ***************************************/
@@ -87,12 +175,14 @@ private:
    {  // setup
       Angle a;
       a.radians = 0.0;
+      const Angle aConst(a);
+      assert(aConst.radians == a.radians);
       double result;
       // exercise
-      result = a.getRadians();
+      result = aConst.getRadians();
       // verify
-      assertValues(result,    0.0, 0.001);
-      assertValues(a.radians, 0.0, 0.001);
+      assertValues(result,         0.0, 0.001);
+      assertValues(aConst.radians, 0.0, 0.001);
    }  // teardown
 
    // get radians 90
@@ -100,12 +190,14 @@ private:
    {  // setup
       Angle a;
       a.radians = 1.570795; // PI / 2
+      const Angle aConst(a);
+      assert(aConst.radians == a.radians);
       double result;
       // exercise
-      result = a.getRadians();
+      result = aConst.getRadians();
       // verify
-      assertValues(result,    1.570795, 0.001);
-      assertValues(a.radians, 1.570795, 0.001);
+      assertValues(result,         1.570795, 0.001);
+      assertValues(aConst.radians, 1.570795, 0.001);
    }  // teardown
    
    // get radians 180
@@ -113,12 +205,14 @@ private:
    {  // setup
       Angle a;
       a.radians = 3.14159;
+      const Angle aConst(a);
+      assert(aConst.radians == a.radians);
       double result;
       // exercise
-      result = a.getRadians();
+      result = aConst.getRadians();
       // verify
-      assertValues(result,    3.14159, 0.001);
-      assertValues(a.radians, 3.14159, 0.001);
+      assertValues(result,         3.14159, 0.001);
+      assertValues(aConst.radians, 3.14159, 0.001);
    }  // teardown
 
    // get degrees zero
@@ -126,12 +220,14 @@ private:
    {  // setup
       Angle a;
       a.radians = 0.0;
+      const Angle aConst(a);
+      assert(aConst.radians == a.radians);
       double result;
       // exercise
-      result = a.getDegrees();
+      result = aConst.getDegrees();
       // verify
-      assertValues(result,    0.0, 0.001);
-      assertValues(a.radians, 0.0, 0.001);
+      assertValues(result,         0.0, 0.001);
+      assertValues(aConst.radians, 0.0, 0.001);
    }  // teardown
 
    // get degrees 90
@@ -139,12 +235,14 @@ private:
    {  // setup
       Angle a;
       a.radians = 1.570795; // PI / 2
+      const Angle aConst(a);
+      assert(aConst.radians == a.radians);
       double result;
       // exercise
-      result = a.getDegrees();
+      result = aConst.getDegrees();
       // verify
-      assertValues(result,    90.0,     0.001);
-      assertValues(a.radians, 1.570795, 0.001);
+      assertValues(result,         90.0,     0.001);
+      assertValues(aConst.radians, 1.570795, 0.001);
    }  // teardown
 
    // get degrees 180
@@ -152,12 +250,14 @@ private:
    {  // setup
       Angle a;
       a.radians = 3.14159;
+      const Angle aConst(a);
+      assert(aConst.radians == a.radians);
       double result;
       // exercise
-      result = a.getDegrees();
+      result = aConst.getDegrees();
       // verify
-      assertValues(result,    180.0,   0.001);
-      assertValues(a.radians, 3.14159, 0.001);
+      assertValues(result,         180.0,   0.001);
+      assertValues(aConst.radians, 3.14159, 0.001);
    }  // teardown
 
  /***************************************
@@ -169,12 +269,14 @@ private:
    {  // setup
       Angle a;
       a.radians = 99.9;
+      const Angle aConst(a);
+      assert(aConst.radians == a.radians);
       double result;
       // exercise
-      result = a.normalize(0.0);
+      result = aConst.normalize(0.0);
       // verify
-      assertValues(result, 0.0, 0.001);
-      assertValues(a.radians, 99.9, 0.001);
+      assertValues(result,          0.0, 0.001);
+      assertValues(aConst.radians, 99.9, 0.001);
    }  // teardown
 
    // normalize typical value
@@ -182,12 +284,14 @@ private:
    {  // setup
       Angle a;
       a.radians = 99.9;
+      const Angle aConst(a);
+      assert(aConst.radians == a.radians);
       double result;
       // exercise
-      result = a.normalize(1.23);
+      result = aConst.normalize(1.23);
       // verify
-      assertValues(result, 1.23, 0.001);
-      assertValues(a.radians, 99.9, 0.001);
+      assertValues(result,         1.23, 0.001);
+      assertValues(aConst.radians, 99.9, 0.001);
    }  // teardown
 
    // normalize negative
@@ -195,12 +299,14 @@ private:
    {  // setup
       Angle a;
       a.radians = 99.9;
+      const Angle aConst(a);
+      assert(aConst.radians == a.radians);
       double result;
       // exercise
-      result = a.normalize(-1.0);
+      result = aConst.normalize(-1.0);
       // verify
       assertValues(result, 6.28318530717 - 1.0, 0.001);
-      assertValues(a.radians, 99.9, 0.001);
+      assertValues(aConst.radians,        99.9, 0.001);
    }  // teardown
 
    // normalize one lap in the positive direction
@@ -208,12 +314,14 @@ private:
    {  // setup
       Angle a;
       a.radians = 99.9;
+      const Angle aConst(a);
+      assert(aConst.radians == a.radians);
       double result;
       // exercise
-      result = a.normalize(6.28318530717 + 1.234);
+      result = aConst.normalize(6.28318530717 + 1.234);
       // verify
-      assertValues(result, 1.234, 0.001);
-      assertValues(a.radians, 99.9, 0.001);
+      assertValues(result,        1.234, 0.001);
+      assertValues(aConst.radians, 99.9, 0.001);
    }  // teardown
 
    // normalize ten laps in the positive direction
@@ -221,12 +329,14 @@ private:
    {  // setup
       Angle a;
       a.radians = 99.9;
+      const Angle aConst(a);
+      assert(aConst.radians == a.radians);
       double result;
       // exercise
-      result = a.normalize(6.28318530717 * 10.0 + 2.121);
+      result = aConst.normalize(6.28318530717 * 10.0 + 2.121);
       // verify
-      assertValues(result, 2.121, 0.001);
-      assertValues(a.radians, 99.9, 0.001);
+      assertValues(result,        2.121, 0.001);
+      assertValues(aConst.radians, 99.9, 0.001);
    }  // teardown
 
    // normalize one lap in the negative direction
@@ -234,12 +344,14 @@ private:
    {  // setup
       Angle a;
       a.radians = 99.9;
+      const Angle aConst(a);
+      assert(aConst.radians == a.radians);
       double result;
       // exercise
-      result = a.normalize(-2.0 * 6.28318530717 + 1.234);
+      result = aConst.normalize(-2.0 * 6.28318530717 + 1.234);
       // verify
-      assertValues(result, 1.234, 0.001);
-      assertValues(a.radians, 99.9, 0.001);
+      assertValues(result,        1.234, 0.001);
+      assertValues(aConst.radians, 99.9, 0.001);
    }  // teardown
 
    // normalize ten laps in the positive direction
@@ -247,12 +359,14 @@ private:
    {  // setup
       Angle a;
       a.radians = 99.9;
+      const Angle aConst(a);
+      assert(aConst.radians == a.radians);
       double result;
       // exercise
-      result = a.normalize(-11.0 * 6.28318530717 + 2.121);
+      result = aConst.normalize(-11.0 * 6.28318530717 + 2.121);
       // verify
-      assertValues(result, 2.121, 0.001);
-      assertValues(a.radians, 99.9, 0.001);
+      assertValues(result,        2.121, 0.001);
+      assertValues(aConst.radians, 99.9, 0.001);
    }  // teardown
 
 /***************************************
@@ -264,12 +378,14 @@ private:
    {  // setup
       Angle a;
       a.radians = 99.9;
+      const Angle aConst(a);
+      assert(aConst.radians == a.radians);
       double result;
       // exercise
-      result = a.convertToDegrees(0.0);
+      result = aConst.convertToDegrees(0.0);
       // verify
-      assertValues(result, 0.0, 0.001);
-      assertValues(a.radians, 99.9, 0.001);
+      assertValues(result,          0.0, 0.001);
+      assertValues(aConst.radians, 99.9, 0.001);
    }  // teardown
 
    // convert PI/2 radians to degrees
@@ -277,12 +393,14 @@ private:
    {  // setup
       Angle a;
       a.radians = 99.9;
+      const Angle aConst(a);
+      assert(aConst.radians == a.radians);
       double result;
       // exercise
-      result = a.convertToDegrees(1.570795);  // PI / 2
+      result = aConst.convertToDegrees(1.570795);  // PI / 2
       // verify
-      assertValues(result, 90.0, 0.001);
-      assertValues(a.radians, 99.9, 0.001);
+      assertValues(result,         90.0, 0.001);
+      assertValues(aConst.radians, 99.9, 0.001);
    }  // teardown
 
    // convert PI radians to degrees
@@ -290,12 +408,14 @@ private:
    {  // setup
       Angle a;
       a.radians = 99.9;
+      const Angle aConst(a);
+      assert(aConst.radians == a.radians);
       double result;
       // exercise
-      result = a.convertToDegrees(3.14159);  // PI 
+      result = aConst.convertToDegrees(3.14159);  // PI
       // verify
-      assertValues(result, 180.0, 0.001);
-      assertValues(a.radians, 99.9, 0.001);
+      assertValues(result,        180.0, 0.001);
+      assertValues(aConst.radians, 99.9, 0.001);
    }  // teardown
 
    // convert -3PI/2 radians to degrees
@@ -303,12 +423,14 @@ private:
    {  // setup
       Angle a;
       a.radians = 99.9;
+      const Angle aConst(a);
+      assert(aConst.radians == a.radians);
       double result;
       // exercise
-      result = a.convertToDegrees(-4.7123889);  // -3PI/2 
+      result = aConst.convertToDegrees(-4.7123889);  // -3PI/2
       // verify
-      assertValues(result, 90.0, 0.001);
-      assertValues(a.radians, 99.9, 0.001);
+      assertValues(result,         90.0, 0.001);
+      assertValues(aConst.radians, 99.9, 0.001);
    }  // teardown
 
    // convert -10PI + PI/2 radians to degrees
@@ -316,12 +438,14 @@ private:
    {  // setup
       Angle a;
       a.radians = 99.9;
+      const Angle aConst(a);
+      assert(aConst.radians == a.radians);
       double result;
       // exercise
-      result = a.convertToDegrees(-10 * 3.1415926 + 3.1415926 / 2.0);  // -3PI/2 
+      result = aConst.convertToDegrees(-10 * 3.1415926 + 3.1415926 / 2.0);  // -3PI/2
       // verify
       assertValues(result, 90.0, 0.001);
-      assertValues(a.radians, 99.9, 0.001);
+      assertValues(aConst.radians, 99.9, 0.001);
    }  // teardown
 
    // convert 10PI - PI/2 radians to degrees
@@ -329,12 +453,14 @@ private:
    {  // setup
       Angle a;
       a.radians = 99.9;
+      const Angle aConst(a);
+      assert(aConst.radians == a.radians);
       double result;
       // exercise
-      result = a.convertToDegrees(10 * 3.1415926 - 3.1415926 / 2.0);  // -3PI/2 
+      result = aConst.convertToDegrees(10 * 3.1415926 - 3.1415926 / 2.0);  // -3PI/2
       // verify
-      assertValues(result, 270.0, 0.001);
-      assertValues(a.radians, 99.9, 0.001);
+      assertValues(result,        270.0, 0.001);
+      assertValues(aConst.radians, 99.9, 0.001);
    }  // teardown
 
    // convert 0 degrees to radians
@@ -342,12 +468,14 @@ private:
    {  // setup
       Angle a;
       a.radians = 99.9;
+      const Angle aConst(a);
+      assert(aConst.radians == a.radians);
       double result;
       // exercise
-      result = a.convertToRadians(0.0);
+      result = aConst.convertToRadians(0.0);
       // verify
-      assertValues(result, 0.0, 0.001);
-      assertValues(a.radians, 99.9, 0.001);
+      assertValues(result,          0.0, 0.001);
+      assertValues(aConst.radians, 99.9, 0.001);
    }  // teardown
 
    // convert 90 degrees to radians
@@ -355,12 +483,14 @@ private:
    {  // setup
       Angle a;
       a.radians = 99.9;
+      const Angle aConst(a);
+      assert(aConst.radians == a.radians);
       double result;
       // exercise
-      result = a.convertToRadians(90.0);
+      result = aConst.convertToRadians(90.0);
       // verify
-      assertValues(result, 1.570795, 0.001);  // PI / 2
-      assertValues(a.radians, 99.9, 0.001);
+      assertValues(result,     1.570795, 0.001);  // PI / 2
+      assertValues(aConst.radians, 99.9, 0.001);
    }  // teardown
 
    // convert 180 degrees to radians
@@ -368,12 +498,14 @@ private:
    {  // setup
       Angle a;
       a.radians = 99.9;
+      const Angle aConst(a);
+      assert(aConst.radians == a.radians);
       double result;
       // exercise
-      result = a.convertToRadians(180.0);
+      result = aConst.convertToRadians(180.0);
       // verify
-      assertValues(result, 3.14159, 0.001);
-      assertValues(a.radians, 99.9, 0.001);
+      assertValues(result,      3.14159, 0.001);
+      assertValues(aConst.radians, 99.9, 0.001);
    }  // teardown
 
    // convert -90.0 degrees to radians
@@ -381,12 +513,14 @@ private:
    {  // setup
       Angle a;
       a.radians = 99.9;
+      const Angle aConst(a);
+      assert(aConst.radians == a.radians);
       double result;
       // exercise
-      result = a.convertToRadians(-90.0);
+      result = aConst.convertToRadians(-90.0);
       // verify
-      assertValues(result, 4.7123889, 0.001);  // 3PI/2 
-      assertValues(a.radians, 99.9, 0.001);
+      assertValues(result,    4.7123889, 0.001);  // 3PI/2
+      assertValues(aConst.radians, 99.9, 0.001);
    }  // teardown
 
    // convert four laps + 90 degrees to radians
@@ -394,12 +528,14 @@ private:
    {  // setup
       Angle a;
       a.radians = 99.9;
+      const Angle aConst(a);
+      assert(aConst.radians == a.radians);
       double result;
       // exercise
-      result = a.convertToRadians(-1350.0);  // -4.0 * 360.0 + 90.0
+      result = aConst.convertToRadians(-1350.0);  // -4.0 * 360.0 + 90.0
       // verify
       assertValues(result, 3.1415926 / 2.0, 0.001);
-      assertValues(a.radians, 99.9, 0.001);
+      assertValues(aConst.radians,    99.9, 0.001);
    }  // teardown
 
    // convert 10PI - PI/2 radians to degrees
@@ -407,12 +543,14 @@ private:
    {  // setup
       Angle a;
       a.radians = 99.9;
+      const Angle aConst(a);
+      assert(aConst.radians == a.radians);
       double result;
       // exercise
-      result = a.convertToRadians(1710.0);  // 5 *  360 - 90
+      result = aConst.convertToRadians(1710.0);  // 5 *  360 - 90
       // verify
-      assertValues(result, 4.7123889, 0.001);  // 3 PI / 2
-      assertValues(a.radians, 99.9, 0.001);
+      assertValues(result,    4.7123889, 0.001);  // 3 PI / 2
+      assertValues(aConst.radians, 99.9, 0.001);
    }  // teardown
 
 
@@ -539,12 +677,14 @@ private:
    {  // setup
       Angle a;
       a.radians = 0.0;
+      const Angle aConst(a);
+      assert(aConst.radians == a.radians);
       std::ostringstream out;
       // exercise
-      a.display(out);
+      aConst.display(out);
       // verify
       assertCondition(out.str() == string("0.0degrees"));
-      assertValues(a.radians, 0.0, 0.001);
+      assertValues(aConst.radians, 0.0, 0.001);
    }  // teardown
 
    // display 90
@@ -552,12 +692,14 @@ private:
    {  // setup
       Angle a;
       a.radians = 1.570795;  // PI / 2
+      const Angle aConst(a);
+      assert(aConst.radians == a.radians);
       std::ostringstream out;
       // exercise
-      a.display(out);
+      aConst.display(out);
       // verify
       assertCondition(out.str() == string("90.0degrees"));
-      assertValues(a.radians, 1.570795, 0.001);
+      assertValues(aConst.radians, 1.570795, 0.001);
    }  // teardown
 
    // display 180
@@ -565,12 +707,14 @@ private:
    {  // setup
       Angle a;
       a.radians = 3.14159;
+      const Angle aConst(a);
+      assert(aConst.radians == a.radians);
       std::ostringstream out;
       // exercise
-      a.display(out);
+      aConst.display(out);
       // verify
       assertCondition(out.str() == string("180.0degrees"));
-      assertValues(a.radians, 3.14159, 0.001);
+      assertValues(aConst.radians, 3.14159, 0.001);
    }  // teardown
 
    // display 359.9
@@ -578,12 +722,14 @@ private:
    {  // setup
       Angle a;
       a.radians = 6.27445866; // 359.5 / 360 * 2 PI
+      const Angle aConst(a);
+      assert(aConst.radians == a.radians);
       std::ostringstream out;
       // exercise
-      a.display(out);
+      aConst.display(out);
       // verify
       assertCondition(out.str() == string("359.5degrees"));
-      assertValues(a.radians, 6.27445866, 0.001);
+      assertValues(aConst.radians, 6.27445866, 0.001);
    }  // teardown
 
 
