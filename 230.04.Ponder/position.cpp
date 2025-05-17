@@ -22,12 +22,9 @@ Position::Position(double x, double y) : x(x), y(y) {}
  * Update point based on the distance formula
  *   s = s_0 + vt + 1/2 a t^2
  *****************************************/
-void Position::add(const Acceleration & a, const Velocity & v, double t)
+void Position::add(const Acceleration& a, const Velocity& v, double t)
 {
-   // increase the velocity according to the acceleration with time
-   Velocity v2 = Velocity(v);
-   v2.add(a, t);
-   x += v.getDX();
-   y += v.getDY();
+   x += v.getDX() * t + 0.5 * a.getDDX() * t * t;
+   y += v.getDY() * t + 0.5 * a.getDDY() * t * t;
 }
 
