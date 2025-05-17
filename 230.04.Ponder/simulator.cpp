@@ -29,11 +29,12 @@ public:
    // the position of the star
    Position posStar;   
    // set up the simulator
-   Simulator(const Position & posUpperRight) : ground(posUpperRight), phase(0) {
+   Simulator(const Position& posUpperRight)
+      : ground(posUpperRight), phase(0)
+   {
       posLander = Position(posUpperRight.getX() / 2, posUpperRight.getY() - 10);
-      ground = Ground(Position(0,0));
       a = Angle(0);
-      posStar = Position(100,100);
+      posStar = Position(100, 100);
    }
        
    // display stuff on the screen
