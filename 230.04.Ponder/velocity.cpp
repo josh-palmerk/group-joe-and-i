@@ -40,6 +40,6 @@ double Velocity::getSpeed() const
  *********************************************/
 void Velocity::set(const Angle & angle, double magnitude)
 {
-   dx = cos(angle.getDegrees()) * magnitude;
-   dy = sin(angle.getDegrees()) * magnitude;
+   dx = magnitude * sin(angle.getRadians());  // horizontal
+   dy = magnitude * cos(angle.getRadians());  // vertical
 }
