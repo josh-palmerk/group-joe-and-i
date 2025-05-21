@@ -57,7 +57,11 @@ double updateBalance(double balance)
 {
    double change;
    cout << "Change: $";
-   cin >> change;
+   while (!(cin >> change)) {
+      cin.clear();
+      cin.ignore(2000, '\n');
+      cout << "\nInvalid input. Please enter a number: $";
+   }
    return balance + change;
 }
 
