@@ -29,7 +29,8 @@ public:
    * Default constructor
    * Initializes position to (0.0, 0.0)
    *************************************/
-   Position() : x(40.0), y(350.0) {}
+   // Position() : x(40.0), y(350.0) {} // Places lander well above the ground
+   Position() : x(0.0), y(0.0) {} // Required for test cases puts lander in the bottom left corner
 
    /****************************************
    * Copy constructor
