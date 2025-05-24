@@ -85,6 +85,11 @@ Acceleration Lander :: input(const Thrust& thrust, double gravity)
       double magnitude = thrust.mainEngineThrust();
       Acceleration thrustAccel;
       thrustAccel.set(angle, magnitude);
+
+      // Invert the thrust vector to apply force opposite the nose direction
+      thrustAccel.setDDX(-thrustAccel.getDDX());
+      thrustAccel.setDDY(thrustAccel.getDDY());
+
       a.add(thrustAccel);
    }
 
