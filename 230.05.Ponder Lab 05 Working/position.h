@@ -29,7 +29,7 @@ public:
    * Default constructor
    * Initializes position to (0.0, 0.0)
    *************************************/
-   Position() : x(0.0), y(0.0) {}
+   Position() : x(40.0), y(350.0) {}
 
    /****************************************
    * Copy constructor
@@ -114,7 +114,7 @@ public:
    /****************************************
    * ADD
    * Move the position forward using the formula:
-   * s = s + vt + ½at²
+   * s = s + vt + Â½atÂ²
    * @param a Acceleration to apply
    * @param v Initial velocity
    * @param t Time interval in seconds
