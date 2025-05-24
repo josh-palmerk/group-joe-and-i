@@ -35,7 +35,7 @@ Acceleration::Acceleration(double ddx, double ddy)
  *********************************************/
 void Acceleration::set(const Angle& angle, double magnitude)
 {
- ddx = -magnitude * sin(angle.radians); // controls left and right
+ ddx = magnitude * sin(angle.radians); // controls left and right
  ddy = magnitude * cos(angle.radians); // controls vertical
 }
 
