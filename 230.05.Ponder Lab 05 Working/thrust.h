@@ -55,8 +55,8 @@ public:
    void set(const Interface* pUI)
    {
       mainEngine = (pUI->isDown() != 0);
-      clockwise = (pUI->isLeft() != 0);            
-      counterClockwise = (pUI->isRight() != 0); 
+      clockwise = (pUI->isRight() != 0);            
+      counterClockwise = (pUI->isLeft() != 0); 
    }
 
 private:
