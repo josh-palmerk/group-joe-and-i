@@ -3,12 +3,12 @@ float allocateOneFloat(float a) {
     return slot;
 }
 void deleteOneFloat(*float a) {
-    del a;
+    delete a;
 }
 int[] allocateArrayDouble(int a) {
     int[a] arr;
     return arr;
 }
 void deleteArrayDouble(int[] a) {
-    del a[];
+    delete a[];
 }
