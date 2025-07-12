@@ -50,7 +50,7 @@ public:
    void addDY(double dy) { this->dy += dy; }
    void add(const Acceleration& acceleration, double time);
 
-private:
+// made public for tests
    double dx;           // horizontal velocity
    double dy;           // vertical velocity
 };

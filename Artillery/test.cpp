@@ -12,6 +12,8 @@
 #include "testPosition.h"
 #include "testVelocity.h"
 #include "testAcceleration.h"
+#include "testHowitzer.h"
+#include "testProjectile.h"
 
  // This code, and the similar IF_DEF in testRunner(), is to ensure that
  // you can see the text output (called the console window) and OpenGL's
@@ -32,15 +34,20 @@ using namespace std;
  ****************************************************************/
 void testRunner()
 {
-#ifdef _WIN32
-   AllocConsole();
-   FILE* stream;
-   errno_t err;
-   err = freopen_s(&stream, "CONOUT$", "a", stdout);
-#endif // _WIN32
+// David: my computer doesn't compile with this, so I commented it out
+// #ifdef _WIN32
+//    AllocConsole();
+//    FILE* stream;
+//    errno_t err;
+//    err = freopen_s(&stream, "CONOUT$", "a", stdout);
+// #endif // _WIN32
 
    TestAngle().run();
    TestAcceleration().run();
    TestPosition().run();
    TestVelocity().run();
+//   TestGround().run();  
+   TestHowitzer().run();
+   // TestProjectile().run();
+   std::cout << "tests completed" << std::endl;
 }

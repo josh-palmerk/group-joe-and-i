@@ -19,6 +19,7 @@ double Position::metersFromPixels = 40.0;
 int main()
 {
    // run the test code.
+   std::cout << "help";
    testRunner();
 
    // return success
